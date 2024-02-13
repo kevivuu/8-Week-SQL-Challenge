@@ -1,5 +1,5 @@
 # Case Study 2 - Pizza Runner
-
+![2](https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/98ed9fb4-b01e-4aa8-b47e-c16e6dd53e96)
 ## Introduction
 Did you know that over **115 million kilograms** of pizza is consumed daily worldwide??? (Well according to Wikipedia anyway…)
 
