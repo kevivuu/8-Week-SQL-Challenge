@@ -16,11 +16,13 @@ Danny’s Diner is in need of your assistance to help the restaurant stay afloat
 create temp table customer_orders_temp as(
 	select order_id, customer_id, pizza_id,
 	case
-		when exclusions like '%null%' or exclusions is null then ''
+		when exclusions like '%null%' or exclusions is null or trim(exclusions) = ''
+		then null
 		else exclusions
 	end as exclusions,
 	case
-		when extras like '%null%' or extras is null then ''
+		when extras like '%null%' or extras is null or trim(extras) = ''
+		then null
 		else extras
 	end as extras,
 	order_time
@@ -29,4 +31,5 @@ create temp table customer_orders_temp as(
 ````
 
 #### Temp table: customer_order_temp
-<img width="751" alt="Screenshot 2024-02-13 at 12 08 54" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/37a0cf4e-ba7c-4c68-8f2c-eeede5589e98">
+<img width="750" alt="Screenshot 2024-02-13 at 12 28 13" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/04c7f691-2771-42c9-a60c-b27aaad029d4">
+
