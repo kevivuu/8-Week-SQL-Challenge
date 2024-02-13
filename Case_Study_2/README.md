@@ -130,7 +130,7 @@ VALUES
   (12, 'Tomato Sauce');
 ````
 
-## Cleaning customer_order
+## Cleaning "customer_order" table
 ````sql
 create temp table customer_orders_temp as(
 	select order_id, customer_id, pizza_id,
@@ -148,4 +148,4 @@ create temp table customer_orders_temp as(
 ````
 
 #### Temp table: customer_order_temp
-
+<img width="751" alt="Screenshot 2024-02-13 at 12 08 54" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/37a0cf4e-ba7c-4c68-8f2c-eeede5589e98">
