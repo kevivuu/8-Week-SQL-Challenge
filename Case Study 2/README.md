@@ -129,3 +129,5 @@ VALUES
   (11, 'Tomatoes'),
   (12, 'Tomato Sauce');
 ````
+## Entity Relationship Diagram
+<img width="716" alt="Screenshot 2024-02-13 at 12 55 21" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/7d082da0-b91d-4de6-be4e-a9211df57147">
