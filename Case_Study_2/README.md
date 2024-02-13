@@ -29,6 +29,7 @@ create temp table customer_orders_temp as(
 	from customer_orders
 );
 ````
+**Actions:** turn all blank or null values into null
 
 #### Temp table: customer_order_temp
 <img width="750" alt="Screenshot 2024-02-13 at 12 28 13" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/04c7f691-2771-42c9-a60c-b27aaad029d4">
