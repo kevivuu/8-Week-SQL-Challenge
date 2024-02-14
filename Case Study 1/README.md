@@ -62,3 +62,6 @@ VALUES
   ('A', '2021-01-07'),
   ('B', '2021-01-09');
 ````
+
+## Entity Relationship Diagram
+<img width="704" alt="Screenshot 2024-02-13 at 17 44 59" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/9257cf20-c34f-413d-adfa-b6f82c1b8682">
