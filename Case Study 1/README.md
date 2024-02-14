@@ -268,7 +268,6 @@ order by customer_id;
 ````
 
 #### Steps:
-Assumption: order dates can only be BEFORE join dates (not the same day)
 1. Create CTE "points" where point is price x20 when product is sushi and price x10 otherwise
 2. Display customer_id and total_point
 
@@ -301,7 +300,6 @@ order by customer_id;
 ````
 
 #### Steps:
-Assumption: order dates can only be BEFORE join dates (not the same day)
 1. Create CTE "points" where point is price x20 when product is sushi or when order date is in range, and price x10 otherwise
 2. Make a constraint of date being before February 2021 for "points"
 3. Display customer_id and total_point
