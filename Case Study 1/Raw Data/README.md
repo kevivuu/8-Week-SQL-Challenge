@@ -1,4 +1,4 @@
-## Raw Data
+# Raw Data
 ````sql
 CREATE SCHEMA dannys_diner;
 SET search_path = dannys_diner;
