@@ -65,3 +65,12 @@ VALUES
 
 ## Entity Relationship Diagram
 <img width="704" alt="Screenshot 2024-02-13 at 17 44 59" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/9257cf20-c34f-413d-adfa-b6f82c1b8682">
+
+## Table 1: sales
+<img width="383" alt="Screenshot 2024-02-13 at 17 59 10" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/b74b62be-19fe-462a-ab6c-4ab8da40db8d">
+
+## Table 2: menu
+<img width="348" alt="Screenshot 2024-02-13 at 17 59 39" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/38a1533a-80e4-44f2-824e-20c590b1a8d5">
+
+## Table 3: members
+<img width="259" alt="Screenshot 2024-02-13 at 18 00 11" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/6c750e79-b7ce-433a-b2b2-242c642ac324">
