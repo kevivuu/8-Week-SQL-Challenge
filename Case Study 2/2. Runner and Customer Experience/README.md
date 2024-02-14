@@ -1,5 +1,4 @@
 # Part B: Runner and Customer Experience
-![image](https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/2aceb90e-833f-42a4-8656-4d223ff49aef)
 
 ## Question 1: How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
 ````sql
