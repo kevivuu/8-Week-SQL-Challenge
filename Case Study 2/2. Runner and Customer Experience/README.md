@@ -9,7 +9,7 @@ order by week;
 ````
 
 #### Steps:
-1. 
+1. Display weeks since 2021-01-01 and count registrations per each week
 
 #### Answer:
 | week        | runner_count          |
@@ -35,7 +35,9 @@ order by runner_id;
 ````
 
 #### Steps:
-1. 
+1. Create CTE "times" which calculates the difference between pickup_time and order_time
+2. Make sure all null values are not included in "times"
+3. Display runners and the average time for each
 
 #### Answer:
 | runner_id   | avg_time              |
@@ -62,7 +64,8 @@ order by pizza_count;
 ````
 
 #### Steps:
-1. 
+1. Calculate time difference similarly to q2
+2. Find the average time for each number of pizzas per order
 
 #### Answer:
 | pizza_count | avg_time              |
@@ -71,7 +74,7 @@ order by pizza_count;
 | 2           |             00:18:22  |
 | 3           |             00:29:17  |
 
-**Analysis**: Positive relationship (more pizzas take longer to make)
+**Analysis**: Positive relationship (more pizzas take longer to prepare)
 
 ## Question 4: What was the average distance travelled for each customer?
 ````sql
@@ -92,8 +95,8 @@ order by customer_id;
 ````
 
 #### Steps:
-1. 
-2. 
+1. Join customer and runner tables
+2. Modify value types to find average distance for each customer
 
 #### Answer:
 <img width="252" alt="Screenshot 2024-02-14 at 00 21 03" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/dcb5a156-2b0c-4e96-8b9c-9fc829a82c5a">
@@ -114,8 +117,8 @@ from times;
 ````
 
 #### Steps:
-1. 
-2. 
+1. Calculate time difference similarly to q2
+2. Calculate the difference between longest (max) and shortest (min) timelapse
 
 #### Answer:
 | time_diff   |
@@ -141,8 +144,8 @@ order by runner_id, pizza_count;
 ````
 
 #### Steps:
-1. 
-2. 
+1. Create CTE "speeds" which calculates km/h speed for each runner
+2. Display speed for each runner sorted by number of pizzas per order
 
 #### Answer:
 <img width="313" alt="Screenshot 2024-02-14 at 00 24 45" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/c493aabc-6007-4b9c-a894-7e3da37ffbf6">
@@ -168,9 +171,9 @@ from pcts
 ````
 
 #### Steps:
-1. 
-2. 
-3. 
+1. Create CTE "successes" to show successful deliveries per runner
+2. Create CTE "pcts" to calculate success rate
+3. Display each runner and their success rate
 
 #### Answer:
 | runner_id   | success_rate          |
