@@ -1,4 +1,6 @@
 # Part A: Pizza Metrics
+![pizza](https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/3f39c34b-9702-4a6b-abae-157b831cf859)
+
 ## Question 1: How many pizzas were ordered?
 ````sql
 select count(*) as pizza_count
