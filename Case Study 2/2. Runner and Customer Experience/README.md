@@ -146,6 +146,7 @@ order by runner_id, pizza_count;
 
 #### Answer:
 <img width="313" alt="Screenshot 2024-02-14 at 00 24 45" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/c493aabc-6007-4b9c-a894-7e3da37ffbf6">
+
 **Analysis**: Runner 2 is fastest with 1 pizza. There is no clear relationship across runners with increasing pizzas per order.
 
 ## Question 7: What is the successful delivery percentage for each runner?
