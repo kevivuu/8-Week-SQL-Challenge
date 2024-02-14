@@ -1,136 +1,178 @@
-# Part A: Pizza Metrics
+# Part B: Runner and Customer Experience
 
-## Question 1: How many pizzas were ordered?
+## Question 1: How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
 ````sql
-select count(*) as pizza_count
-from customer_orders_temp;
+select date_part('week', registration_date) as week, count(*) as runner_count
+from runners
+group by week
+order by week;
 ````
 
 #### Steps:
-1. Count total entries in customer_orders_temp
+1. 
 
 #### Answer:
-| pizza_count |
-| ----------- |
-|          14 |
+| week        | runner_count          |
+| ----------- | --------------------- |
+| 1           |                    2  |
+| 2           |                    2  |
 
-## Question 2: How many unique customer orders were made?
+## Question 2: What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
 ````sql
-select count(distinct order_id) as order_count
-from customer_orders_temp;
-````
-
-#### Steps:
-1. Count total distinct orders in customer_orders_temp
-
-#### Answer:
-| order_count |
-| ----------- |
-|          10 |
-
-## Question 3: How many successful orders were delivered by each runner?
-````sql
-select runner_id, count(*) as successful_deliveries
-from runner_orders_temp
-where cancellation is null
+with times as (
+	select r.order_id, runner_id, order_time, pickup_time, 
+	cast(pickup_time as timestamp without time zone) - order_time as timelapse
+	from runner_orders_temp r 
+	left join customer_orders_temp c
+	on r.order_id = c.order_id
+	where order_time is not null and pickup_time is not null
+	group by r.order_id, runner_id, order_time, pickup_time
+)
+select runner_id, date_trunc('second', avg(timelapse)) as avg_time
+from times
 group by runner_id
 order by runner_id;
 ````
 
 #### Steps:
-1. Display runner id and total count of orders grouped by runners that are not cancelled
+1. 
 
 #### Answer:
-| runner_id   | successful_deliveries |
+| runner_id   | avg_time              |
 | ----------- | --------------------- |
-| 1           |                    4  |
-| 2           |                    3  |
-| 3           |                    1  |
+| 1           |             00:14:19  |
+| 2           |             00:20:00  |
+| 3           |             00:10:28  |
 
-## Question 4: How many of each type of pizza was delivered?
+## Question 3: Is there any relationship between the number of pizzas and how long the order takes to prepare?
 ````sql
-select pizza_id, count(*) as delivery_count
-from customer_orders_temp c
-left join runner_orders_temp r
-on c.order_id = r.order_id
-where cancellation is null
-group by pizza_id
-order by pizza_id;
-````
-
-#### Steps:
-1. Join runner and customer tables
-2. Display pizza id and total count of orders grouped by pizzas that are not cancelled
-
-#### Answer:
-| pizza_id    | delivery_count        |
-| ----------- | --------------------- |
-| 1           |                    9  |
-| 2           |                    3  |
-
-## Question 5: How many Vegetarian and Meatlovers were ordered by each customer?
-````sql
-select customer_id, pizza_name, count(*) as order_count
-from customer_orders_temp c
-left join pizza_names pn
-on c.pizza_id = pn.pizza_id
-group by customer_id, pizza_name
-order by customer_id, pizza_name;
-````
-
-#### Steps:
-1. Left join customer and pizza_names tables
-2. Group by customer id and pizza name, and display total count for each group
-
-#### Answer:
-<img width="343" alt="Screenshot 2024-02-13 at 17 15 14" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/50f34bad-14af-4d1e-9caa-85f79d71c98b">
-
-## Question 6: What was the maximum number of pizzas delivered in a single order?
-````sql
-select order_id, count(*) as pizza_count
-from customer_orders_temp
-group by order_id
-order by pizza_count desc
-limit 1;
-````
-
-#### Steps:
-1. Group order_id and display total pizzas per order
-2. Order by descending order and limit to 1 entry
-
-#### Answer:
-| order_id    | pizza_count  |
-| ----------- | ------------ |
-| 4           |        3     |
-
-## Question 7: For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
-````sql
-with changes as (
-	select customer_id, order_id,
-	case
-		when exclusions is null and extras is null then 0
-		else count(*)
-		end as change_count,
-	case
-		when exclusions is null and extras is null then count(*)
-		else 0
-		end as no_change_count
-	from customer_orders_temp
-	group by customer_id, order_id, exclusions, extras
+with times as (
+	select r.order_id, count(*) as pizza_count, order_time, pickup_time, 
+	cast(pickup_time as timestamp without time zone) - order_time as timelapse
+	from runner_orders_temp r 
+	left join customer_orders_temp c
+	on r.order_id = c.order_id
+	where order_time is not null and pickup_time is not null
+	group by r.order_id, order_time, pickup_time
 )
-select customer_id, sum(change_count) as changed, sum(no_change_count) as unchanged
-from changes c
-left join runner_orders_temp r
-on c.order_id = r.order_id
-where cancellation is null
+select pizza_count, date_trunc('second', avg(timelapse)) as avg_time
+from times
+group by pizza_count
+order by pizza_count;
+````
+
+#### Steps:
+1. 
+
+#### Answer:
+| pizza_count | avg_time              |
+| ----------- | --------------------- |
+| 1           |             00:12:21  |
+| 2           |             00:18:22  |
+| 3           |             00:29:17  |
+
+**Analysis**: Positive relationship (more pizzas take longer to make)
+
+## Question 4: What was the average distance travelled for each customer?
+````sql
+with distances as (
+	select customer_id, r.order_id, 
+	cast(distance_km as real) as distance
+	from runner_orders_temp r 
+	left join customer_orders_temp c
+	on r.order_id = c.order_id
+	where distance_km is not null
+	group by customer_id, r.order_id, distance_km
+)
+select customer_id, 
+concat(cast(round(avg(distance)::numeric, 1) as text), ' km') as avg_distance
+from distances
 group by customer_id
 order by customer_id;
 ````
 
 #### Steps:
-1. Create CTE "changes" that counts number of changed pizzas and unchanged pizzas for each order
-2. Join changes and runner tables
-3. Group by customers and constraint on orders that are not cancelled
+1. 
+2. 
 
 #### Answer:
-<img width="321" alt="Screenshot 2024-02-13 at 17 20 44" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/6647d54c-1c57-4b50-93a5-cdafc89ba0f1">
+<img width="252" alt="Screenshot 2024-02-14 at 00 21 03" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/dcb5a156-2b0c-4e96-8b9c-9fc829a82c5a">
+
+## Question 5: What was the difference between the longest and shortest delivery times for all orders?
+````sql
+with times as (
+	select r.order_id, count(*) as pizza_count, order_time, pickup_time, 
+	cast(pickup_time as timestamp without time zone) - order_time as timelapse
+	from runner_orders_temp r 
+	left join customer_orders_temp c
+	on r.order_id = c.order_id
+	where order_time is not null and pickup_time is not null
+	group by r.order_id, order_time, pickup_time
+)
+select max(timelapse) - min(timelapse) as time_diff
+from times;
+````
+
+#### Steps:
+1. 
+2. 
+
+#### Answer:
+| time_diff   |
+| ----------- |
+| 00:19:15    |
+
+## Question 6: What was the average speed for each runner for each delivery and do you notice any trend for these values?
+````sql
+with speeds as (
+	select runner_id, count(*) as pizza_count,
+	cast(distance_km as real)/ cast(duration_min as real)*60 as speed
+	from runner_orders_temp r 
+	left join customer_orders_temp c
+	on r.order_id = c.order_id
+	where distance_km is not null
+	group by runner_id, distance_km, duration_min
+)
+select runner_id, pizza_count, 
+concat(cast(round(avg(speed)::numeric, 2) as text), ' km/h') as speed
+from speeds
+group by runner_id, pizza_count
+order by runner_id, pizza_count;
+````
+
+#### Steps:
+1. 
+2. 
+
+#### Answer:
+<img width="313" alt="Screenshot 2024-02-14 at 00 24 45" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/c493aabc-6007-4b9c-a894-7e3da37ffbf6">
+
+## Question 7: What is the successful delivery percentage for each runner?
+````sql
+with successes as (
+	select runner_id, count(*) as success
+	from runner_orders_temp
+	where cancellation is null
+	group by runner_id
+),
+pcts as (
+	select s.runner_id, (cast(success as real)/ cast(count(*) as real))*100 as pct
+	from successes s join runner_orders_temp r
+	on s.runner_id = r.runner_id
+	group by s.runner_id, success
+)
+select runner_id, concat(cast(pct as text), '%') as success_rate
+from pcts
+````
+
+#### Steps:
+1. 
+2. 
+3. 
+
+#### Answer:
+| runner_id   | success_rate          |
+| ----------- | --------------------- |
+| 1           |                 100%  |
+| 2           |                  75%  |
+| 3           |                  50%  |
