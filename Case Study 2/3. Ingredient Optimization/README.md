@@ -43,34 +43,25 @@ create temp table extras_temp as (
 #### Temp table: extras_temp
 <img width="306" alt="Screenshot 2024-02-15 at 14 43 10" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/bf54594e-3561-475e-9994-8e32e91a5f39">
 
-## Question 2: What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
+## Question 2: What was the most commonly added extra?
 ````sql
-with times as (
-	select r.order_id, runner_id, order_time, pickup_time, 
-	cast(pickup_time as timestamp without time zone) - order_time as timelapse
-	from runner_orders_temp r 
-	left join customer_orders_temp c
-	on r.order_id = c.order_id
-	where order_time is not null and pickup_time is not null
-	group by r.order_id, runner_id, order_time, pickup_time
-)
-select runner_id, date_trunc('second', avg(timelapse)) as avg_time
-from times
-group by runner_id
-order by runner_id;
+select topping_name, count(*)
+from extras_temp e
+join pizza_toppings t
+on e.extra_id = t.topping_id
+group by topping_name
+order by count(*) desc
+limit 1;
 ````
 
 #### Steps:
-1. Create CTE "times" which calculates the difference between pickup_time and order_time
-2. Make sure all null values are not included in "times"
-3. Display runners and the average time for each
+1. Display topping name and count of each from extras_temp
+2. Order by count (descending) then limit to 1 for most common
 
 #### Answer:
-| runner_id   | avg_time              |
-| ----------- | --------------------- |
-| 1           |             00:14:19  |
-| 2           |             00:20:00  |
-| 3           |             00:10:28  |
+| topping_name | count                 |
+| ------------ | --------------------- |
+|    Bacon     |             4         |
 
 ## Question 3: Is there any relationship between the number of pizzas and how long the order takes to prepare?
 ````sql
