@@ -75,6 +75,7 @@ create temp table exclus_temp as (
 **Actions:** split strings into array of values and convert them into integers
 
 #### Temp table: extras_temp
+<img width="307" alt="Screenshot 2024-02-15 at 15 01 25" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/43712749-cc50-4059-88ed-911561e8242f">
 
 ## Question 3: What was the most commonly added exclusion?
 ````sql
