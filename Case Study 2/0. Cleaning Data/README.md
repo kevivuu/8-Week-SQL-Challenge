@@ -1,4 +1,3 @@
-
 ## Cleaning "customer_order" table
 ````sql
 create temp table customer_orders_temp as(
