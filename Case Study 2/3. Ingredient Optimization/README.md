@@ -14,22 +14,20 @@ create temp table pizza_recipes_temp as (
 #### Temp table: pizza_recipes_temp
 <img width="208" alt="Screenshot 2024-02-15 at 13 40 36" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/c7a2b733-6490-4b4d-a9bc-40b69438d2bd">
 
-## Question 1: How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
+## Question 1: What are the standard ingredients for each pizza?
 ````sql
-select date_part('week', registration_date) as week, count(*) as runner_count
-from runners
-group by week
-order by week;
+select pizza_id, topping_name
+from pizza_recipes_temp r
+join pizza_toppings t
+on r.topping_id = t.topping_id
+order by pizza_id, topping_name;
 ````
 
 #### Steps:
-1. Display weeks since 2021-01-01 and count registrations per each week
+1. Display pizza id and name of toppings by joining toppings and recipes tables
 
 #### Answer:
-| week        | runner_count          |
-| ----------- | --------------------- |
-| 1           |                    2  |
-| 2           |                    2  |
+<img width="237" alt="Screenshot 2024-02-15 at 13 48 22" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/4e9c5f28-83a5-4db5-8d22-4435398df985">
 
 ## Question 2: What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
 ````sql
