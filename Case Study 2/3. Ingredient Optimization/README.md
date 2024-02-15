@@ -29,6 +29,20 @@ order by pizza_id, topping_name;
 #### Answer:
 <img width="237" alt="Screenshot 2024-02-15 at 13 48 22" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/4e9c5f28-83a5-4db5-8d22-4435398df985">
 
+## Create "extras_temp" table
+````sql
+create temp table extras_temp as (
+	select order_id, customer_id, 
+	cast(trim(unnest(string_to_array(extras, ','))) as int) as extra_id
+	from customer_orders_temp
+	order by extras, order_id, customer_id
+);
+````
+**Actions:** split strings into array of values and convert them into integers
+
+#### Temp table: extras_temp
+<img width="306" alt="Screenshot 2024-02-15 at 14 43 10" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/bf54594e-3561-475e-9994-8e32e91a5f39">
+
 ## Question 2: What was the average time in minutes it took for each runner to arrive at the Pizza Runner HQ to pickup the order?
 ````sql
 with times as (
