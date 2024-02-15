@@ -1,5 +1,19 @@
 # Part C: Ingredient Optimization
 
+## Cleaning "pizza_recipes" table
+````sql
+create temp table pizza_recipes_temp as (
+	select 
+		pizza_id, 
+		cast(trim(unnest(string_to_array(toppings, ','))) as int) as toppings
+	from pizza_recipes
+);
+````
+**Actions:** split strings into array of values and convert them into integers
+
+#### Temp table: pizza_recipes_temp
+<img width="208" alt="Screenshot 2024-02-15 at 13 40 36" src="https://github.com/kevivuu/8-Week-SQL-Challenge/assets/155116890/c7a2b733-6490-4b4d-a9bc-40b69438d2bd">
+
 ## Question 1: How many runners signed up for each 1 week period? (i.e. week starts 2021-01-01)
 ````sql
 select date_part('week', registration_date) as week, count(*) as runner_count
