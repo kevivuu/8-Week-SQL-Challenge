@@ -35,7 +35,7 @@ create temp table extras_temp as (
 	select order_id, customer_id, 
 	cast(trim(unnest(string_to_array(extras, ','))) as int) as extra_id
 	from customer_orders_temp
-	order by extras, order_id, customer_id
+	order by extra_id, order_id, customer_id
 );
 ````
 **Actions:** split strings into array of values and convert them into integers
