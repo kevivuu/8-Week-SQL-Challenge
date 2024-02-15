@@ -63,35 +63,38 @@ limit 1;
 | ------------ | --------------------- |
 |    Bacon     |             4         |
 
-## Question 3: Is there any relationship between the number of pizzas and how long the order takes to prepare?
+## Create "exclus_temp" table
 ````sql
-with times as (
-	select r.order_id, count(*) as pizza_count, order_time, pickup_time, 
-	cast(pickup_time as timestamp without time zone) - order_time as timelapse
-	from runner_orders_temp r 
-	left join customer_orders_temp c
-	on r.order_id = c.order_id
-	where order_time is not null and pickup_time is not null
-	group by r.order_id, order_time, pickup_time
-)
-select pizza_count, date_trunc('second', avg(timelapse)) as avg_time
-from times
-group by pizza_count
-order by pizza_count;
+create temp table exclus_temp as (
+	select order_id, customer_id, 
+	cast(trim(unnest(string_to_array(exclusions, ','))) as int) as exclu_id
+	from customer_orders_temp
+	order by exclu_id, order_id, customer_id
+);
+````
+**Actions:** split strings into array of values and convert them into integers
+
+#### Temp table: extras_temp
+
+## Question 3: What was the most commonly added exclusion?
+````sql
+select topping_name, count(*)
+from exclus_temp e
+join pizza_toppings t
+on e.exclu_id = t.topping_id
+group by topping_name
+order by count(*) desc
+limit 1;
 ````
 
 #### Steps:
-1. Calculate time difference similarly to q2
-2. Find the average time for each number of pizzas per order
+1. Display topping name and count of each from exclus_temp
+2. Order by count (descending) then limit to 1 for most common
 
 #### Answer:
-| pizza_count | avg_time              |
-| ----------- | --------------------- |
-| 1           |             00:12:21  |
-| 2           |             00:18:22  |
-| 3           |             00:29:17  |
-
-**Analysis**: Positive relationship (more pizzas take longer to prepare)
+| topping_name | count                 |
+| ------------ | --------------------- |
+|    Cheese    |             4         |
 
 ## Question 4: What was the average distance travelled for each customer?
 ````sql
